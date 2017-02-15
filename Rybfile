@@ -72,9 +72,19 @@ project :sqlite3, pretty: 'SQLite3' do |proj|
 
     lib.add_source_files 'include/sqlite3.h', 'include/sqlite3ext.h'
     lib.add_source_files 'src/sqlite3.c'
+  end
 
-    lib.platform :windows do |platform|
-      platform.add_external_dependencies %w(kernel32 user32)
-    end
+  proj.application :shell, pretty: 'Shell' do |app|
+    app.author = 'D. Richard Hipp'
+    app.description = 'Command line utility for accessing SQLite3 databases.'
+    app.license = 'Public domain.'
+
+    app.add_include_paths 'include/'
+    app.add_library_paths '$build/lib/', '$build/bin/'
+    app.add_binary_paths '$build/bin/'
+
+    app.add_source_files 'src/shell.c'
+
+    app.add_dependency :sqlite3
   end
 end
